@@ -39,8 +39,8 @@ namespace Delegate_Exercise {
             DataParser data = new DataParser();
             CsvHandler handler = new CsvHandler();
             FileHandler filehand = new FileHandler();
-            string readPath = @"C:\Users\102051563\source\repos\Delegates\Files\data.csv";
-            string writePath = @"C:\Users\102051563\source\repos\Delegates\Files\processed_data.csv";
+            string readPath = @"C:\Users\Admin\source\repos\Delegates\Files\data.csv";
+            string writePath = @"C:\Users\Admin\source\repos\Delegates\Files\processed_data.csv";
             Func<List<List<string>>, List<List<string>>> Trimmer = new Func<List<List<string>>, List<List<string>>>(data.StripQuotes);
             Trimmer += data.StripWhiteSpace;
             Trimmer += StripHash;

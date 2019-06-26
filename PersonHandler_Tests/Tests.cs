@@ -11,7 +11,7 @@ namespace PersonHandler_Tests {
         private FileHandler _fh;
         private DataParser _dp;
 
-        private string csvPath = @"C:\Users\102051563\source\repos\Delegates\Files\processed_data.csv"; // change to appropriate path
+        private string csvPath = @"C:\Users\Admin\source\repos\Delegates\Files\processed_data.csv"; // change to appropriate path
         private List<List<string>> data;
 
         private List<Person> people;

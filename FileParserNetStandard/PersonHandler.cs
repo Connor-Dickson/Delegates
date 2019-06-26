@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using ObjectLibrary;
@@ -30,9 +31,12 @@ namespace FileParserNetStandard {
         /// </summary>
         /// <returns></returns>
         public List<Person> GetOldest() {
-            
+            DateTime oldie = People.Min(person => person.Dob);
+            List<Person> getOldest =
+                People
+                .Where(person => person.Dob == oldie).ToList();
 
-            return new List<Person>(); //-- return result here
+            return getOldest; //-- return result here
         }
 
         /// <summary>
@@ -41,12 +45,16 @@ namespace FileParserNetStandard {
         /// <param name="id"></param>
         /// <returns></returns>
         public string GetString(int id) {
-
-            return "result";  //-- return result here
+            /*string getID = People.Find(person => person.Id == id)
+                .ToString();*/
+            string getID = People.FirstOrDefault(person => person.Id == id)
+            .ToString();
+            return getID;  //-- return result here
         }
 
         public List<Person> GetOrderBySurname() {
-            return new List<Person>();  //-- return result here
+            List<Person> surnameList = People.OrderBy(person => person.Surname).ToList();
+            return surnameList;  //-- return result here
         }
 
         /// <summary>
@@ -56,8 +64,8 @@ namespace FileParserNetStandard {
         /// <param name="caseSensitive"></param>
         /// <returns></returns>
         public int GetNumSurnameBegins(string searchTerm, bool caseSensitive) {
-
-            return 0;  //-- return result here
+            int surNums = People.Count(person => person.Surname.StartsWith(searchTerm, !caseSensitive, CultureInfo.CurrentCulture));
+            return surNums;  //-- return result here
         }
         
         /// <summary>
@@ -66,7 +74,15 @@ namespace FileParserNetStandard {
         /// <returns></returns>
         public List<string> GetAmountBornOnEachDate() {
             List<string> result = new List<string>();
-
+            IEnumerable<DateTime> unique = People.OrderBy(person => person.Dob)
+                .Select(person => person.Dob)
+                .Distinct();
+                
+            foreach(DateTime date in unique)
+            {
+                int counter = People.Count(person => person.Dob == date);
+                result.Add(date + "\t" + counter);
+            }
             return result;  //-- return result here
         }
     }
