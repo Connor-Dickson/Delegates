@@ -13,29 +13,38 @@ namespace Delegate_Exercise {
 
         public static List<List<string>> StripHash(List<List<string>> data)
         {
+            //string newtext = ""; ;
             List<List<string>> list = new List<List<string>>();
+            List<string> links = new List<string>();
             //foreach (List<string> items in data)
             for (int i = 0; i < data.Count; i++)
             {
                 List<string> line = new List<string>();
-                for(int o = 0; o < i; o++)
+                for(int o = 0; o < data[0].Count; o++)
                 {
-                    string text = line[o];
-                    text = text.Trim('#');
+                    string text = data[i][o];
+                    while (text.Contains("#"))
+                    {
+                        int index = text.IndexOf('#');
+                        text = text.Remove(index, 1);
+                    }
                     line.Add(text);
                 }
                 list.Add(line);
             }
-            return list;
+            return DataParser.PutDataBack(data, list);
         }
         public static void Main(string[] args)
         {
             DataParser data = new DataParser();
-            CsvHandler test = new CsvHandler();
-            Func<List<List<string>>, List<List<string>>> whiteTrimmer = new Func<List<List<string>>, List<List<string>>>(data.StripWhiteSpace);
-            whiteTrimmer += data.StripQuotes;
-            test.ProcessCsv(@"C:\Users\102051563\source\repos\Dip-Seminar-Delegates-Lambda-Linq_Exercises\Files\data.csv",
-                @"C:\Users\102051563\source\repos\Dip-Seminar-Delegates-Lambda-Linq_Exercises\Files\processed_data.csv", whiteTrimmer);
+            CsvHandler handler = new CsvHandler();
+            FileHandler filehand = new FileHandler();
+            string readPath = @"C:\Users\102051563\source\repos\Delegates\Files\data.csv";
+            string writePath = @"C:\Users\102051563\source\repos\Delegates\Files\processed_data.csv";
+            Func<List<List<string>>, List<List<string>>> Trimmer = new Func<List<List<string>>, List<List<string>>>(data.StripQuotes);
+            Trimmer += data.StripWhiteSpace;
+            Trimmer += StripHash;
+            handler.ProcessCsv(readPath, writePath, Trimmer);
             
         }
 

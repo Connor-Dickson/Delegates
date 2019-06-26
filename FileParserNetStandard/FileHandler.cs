@@ -76,7 +76,7 @@ namespace FileParserNetStandard {
                 list.Add(items.ToList());
             }
             
-            return new List<List<string>>(list);  //-- return result here
+            return list;  //-- return result here
         }
     }
 }

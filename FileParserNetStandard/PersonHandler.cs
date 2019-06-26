@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using ObjectLibrary;
 
 
 namespace FileParserNetStandard {
     
-    public class Person { }  // temp class delete this when Person is referenced from dll
+    //public class Person { }  // temp class delete this when Person is referenced from dll
     
     public class PersonHandler {
-        public List<Person> People;
+        public List<Person> People = new List<Person>();
 
         /// <summary>
         /// Converts List of list of strings into Person objects for People attribute.
         /// </summary>
         /// <param name="people"></param>
         public PersonHandler(List<List<string>> people) {
-        
+            foreach (List<string> personRow in people.Skip(1))
+            {
+                Person person = new Person(int.Parse(personRow[0]), personRow[1], personRow[2], new DateTime(long.Parse(personRow[3])));
+                People.Add(person);
+            }
         }
 
         /// <summary>
@@ -26,6 +31,7 @@ namespace FileParserNetStandard {
         /// <returns></returns>
         public List<Person> GetOldest() {
             
+
             return new List<Person>(); //-- return result here
         }
 
